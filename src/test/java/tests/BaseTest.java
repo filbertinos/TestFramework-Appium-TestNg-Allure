@@ -22,7 +22,7 @@ public class BaseTest {
         service.start();
         Runtime.getRuntime().exec("/Users/afilippov/Library/Android/sdk/tools/emulator -avd "+deviceName+" -netdelay none -netspeed full");
         DeviceSetUp.prepareDevice();
-        wait = new WebDriverWait(driver,15);
+        wait = new WebDriverWait(driver,5);
     }
     @AfterSuite
     public void tearDown() throws IOException {

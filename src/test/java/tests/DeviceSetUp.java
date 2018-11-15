@@ -18,7 +18,7 @@ public class DeviceSetUp extends BaseTest {
     dc.setCapability(MobileCapabilityType.DEVICE_NAME,deviceName);
     dc.setCapability(MobileCapabilityType.APP,fs.getAbsolutePath());
     driver = new AndroidDriver<>(new URL("http://127.0.0.1:4723/wd/hub"),dc);
-    driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
         return driver;
     }
 

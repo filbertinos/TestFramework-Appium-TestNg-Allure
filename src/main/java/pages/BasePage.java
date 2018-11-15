@@ -16,7 +16,7 @@ public class BasePage {
     //Constructor
     public BasePage(AndroidDriver driver) {
         this.driver = driver;
-        wait = new WebDriverWait(driver,15);
+        wait = new WebDriverWait(driver,10);
     }
     @Step("Press back button")
     public void pressBack(){

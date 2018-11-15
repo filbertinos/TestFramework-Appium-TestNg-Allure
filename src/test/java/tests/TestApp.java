@@ -7,6 +7,8 @@ import pages.HomePage;
 import pages.InnerListPage;
 import utils.Listeners.TestListener;
 
+import java.util.concurrent.TimeUnit;
+
 @Listeners({ TestListener.class })
 @Epic("Regression Tests")
 @Feature("Main functionality")
@@ -208,7 +210,8 @@ public class TestApp extends BaseTest {
     @Test(priority = 12, description = "#13 Add item to MyList from Home Page")
     @Description("Test Description: Add item to MyList from Home Page")
     public void addItemToMyListFromHomePage() {
-            HomePage homePage = new HomePage(driver);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        HomePage homePage = new HomePage(driver);
         if (driver.currentActivity().equals(".MainActivity")) {
             homePage.addtoMyListFromHomePage();
             addNewItemWithNameAndPriceAndAmount();
