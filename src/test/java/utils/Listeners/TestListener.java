@@ -69,7 +69,7 @@ public class TestListener extends BaseTest implements ITestListener {
     public void onTestFailure(ITestResult iTestResult) {
         System.out.println("I am in onTestFailure method " +  getTestMethodName(iTestResult) + " failed");
 
-        //Get driver from BaseTest and assign to local webdriver variable.
+        //Get driver from BaseTest and assign to local androiddriver variable.
         Object testClass = iTestResult.getInstance();
         AppiumDriver driver = ((BaseTest) testClass).getDriver();
 

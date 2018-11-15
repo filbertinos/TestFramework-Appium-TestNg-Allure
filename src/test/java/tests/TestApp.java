@@ -37,7 +37,7 @@ public class TestApp extends BaseTest {
     String list2Name = "Mylist2";
     String list2NameNew = "MyList2";
     String currency = " £";
-    String defPackage = " pcs.";
+    String defPackage = "pcs.";
 
     @Test(priority = 0, description = "#1 Add new list and check its name")
     @Severity(SeverityLevel.BLOCKER)
@@ -86,6 +86,7 @@ public class TestApp extends BaseTest {
         innerListPage.verifyItemName(item3Name);
         innerListPage.verifyItemPrice(item3Price);
         innerListPage.verifyItemAmount(item3Amount);
+        innerListPage.verifyItemPackage(defPackage);
     }
 
     @Test(priority = 4, dependsOnMethods = {"addNewListCheck"}, description = "#5 Add new item with name, price, amount, non default package and comment in the list")
@@ -105,7 +106,7 @@ public class TestApp extends BaseTest {
         innerListPage.verifyItemPackage(item4Package);
     }
 
-    @Test(priority = 5, dependsOnMethods = {"addNewListCheck"}, description = "#6 Add new item with name, price, amount, comment, category and non default in the list")
+    @Test(priority = 5, dependsOnMethods = {"addNewListCheck"}, description = "#6 Add new item with name, price, amount, comment, category and non default package in the list")
     @Description("Test Description: Add new item with name, price, amount, comment, category and non default package and check that it exists in the list")
     public void addNewItemWithNameAndPriceAndAmountAndPackageAndCommentAndCategory() {
         InnerListPage innerListPage = new InnerListPage(driver);
@@ -213,7 +214,8 @@ public class TestApp extends BaseTest {
             addNewItemWithNameAndPriceAndAmount();
         }
         else {
-            homePage.pressBack();
+            InnerListPage innerListPage = new InnerListPage(driver);
+            innerListPage.pressBack();
             homePage.addtoMyListFromHomePage();
             addNewItemWithNameAndPriceAndAmount();
         }
@@ -227,9 +229,9 @@ public class TestApp extends BaseTest {
             innerListPage.pressBack();
             homePage.clickListTitle(list2Name);
             innerListPage.addFromMyListInInnerPage(item3Name);
-            innerListPage.verifyItemName(item3Name);
-            innerListPage.verifyItemPrice(item3Price);
-            innerListPage.verifyItemAmount(item3Amount);
+            innerListPage.verifyItemNameMyList(item3Name);
+            innerListPage.verifyItemPriceMyList(item3Price);
+            innerListPage.verifyItemAmountMyList(item3Amount);
 
     }
 
@@ -237,12 +239,14 @@ public class TestApp extends BaseTest {
     @Description("Test Description: Rename existing list")
     public void renameList() {
         HomePage homePage = new HomePage(driver);
+        homePage.hideKeyboard();
         homePage.pressBack();
         homePage.renameListByNumber(list2NameNew,1);
         homePage.verifyListName(list2Name + list2NameNew);
     }
 
     @Test(priority = 15, dependsOnMethods = {"addSecondList"}, description = "#16 Delete existing list")
+    @Description("Test Description: Delete existing list")
     public void deleteList(){
         HomePage homePage = new HomePage(driver);
         homePage.deleteListByNumber(1);

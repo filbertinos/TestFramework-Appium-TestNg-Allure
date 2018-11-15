@@ -20,7 +20,7 @@ public class BaseTest {
     @BeforeSuite
     public void setUp() throws IOException {
         service.start();
-        Runtime.getRuntime().exec("/Users/afilippov/Library/Android/sdk/tools/emulator -avd Nexus5 -netdelay none -netspeed full");
+        Runtime.getRuntime().exec("/Users/afilippov/Library/Android/sdk/tools/emulator -avd "+deviceName+" -netdelay none -netspeed full");
         DeviceSetUp.prepareDevice();
         wait = new WebDriverWait(driver,15);
     }

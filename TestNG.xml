@@ -3,7 +3,7 @@
 <suite name="SimpleList Test Suite" >
     <listeners>
         <listener class-name="utils.Listeners.TestListener"/>
-        <listener class-name="utils.Listeners.AnnotationTransformer"/>
+        <!--<listener class-name="utils.Listeners.AnnotationTransformer"/>-->
     </listeners>
 
     <test name="TestApp">

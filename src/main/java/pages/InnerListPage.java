@@ -83,11 +83,6 @@ public class InnerListPage extends BasePage {
         Assert.assertEquals(items.get(items.size()-1).findElement(By.id(labelNameLocator)).getText(),expectedName);
     }
 
-    @Step("Verify item name")
-    public void verifyItemNameByNumber(String expectedName, int itemNumber){
-        Assert.assertEquals(items.get(itemNumber).findElement(By.id(labelNameLocator)).getText(),expectedName);
-    }
-
     @Step("Verify item price")
     public void verifyItemPrice(String expectedPrice){
         String [] subStr = items.get(items.size()-1).findElement(By.id(labelPriceLocator)).getText().split(" ");
@@ -110,6 +105,36 @@ public class InnerListPage extends BasePage {
     @Step("Verify item comment")
     public void verifyItemComment(String expectedComment){
         Assert.assertEquals(items.get(items.size()-1).findElement(By.id(labelCommentLocator)).getText(),expectedComment);
+
+    }
+
+    @Step("Verify item name for MyList")
+    public void verifyItemNameMyList(String expectedName){
+        Assert.assertEquals(items.get(0).findElement(By.id(labelNameLocator)).getText(),expectedName);
+    }
+
+    @Step("Verify item price for MyList")
+    public void verifyItemPriceMyList(String expectedPrice){
+        String [] subStr = items.get(0).findElement(By.id(labelPriceLocator)).getText().split(" ");
+        Assert.assertEquals(subStr[0], expectedPrice);
+    }
+
+
+    @Step("Verify item amount for MyList")
+    public void verifyItemAmountMyList(String expectedAmount){
+        String [] subStr = items.get(0).findElement(By.id(labelAmountLocator)).getText().split(" ");
+        Assert.assertEquals(subStr[0], expectedAmount);
+    }
+
+    @Step("Verify item package for MyList")
+    public void verifyItemPackageMyList(String expectedPackage){
+        String [] subStr = items.get(0).findElement(By.id(labelAmountLocator)).getText().split(" ");
+        Assert.assertEquals(subStr[1], expectedPackage);
+    }
+
+    @Step("Verify item comment for MyList")
+    public void verifyItemCommentMyList(String expectedComment){
+        Assert.assertEquals(items.get(0).findElement(By.id(labelCommentLocator)).getText(),expectedComment);
 
     }
 
@@ -145,7 +170,7 @@ public class InnerListPage extends BasePage {
         commentBox.sendKeys(comment);
     }
 
-    @Step("Select {1} in {0}")
+    @Step("Select item in SelectBox")
     public void selectBoxUse(String selectBox, String selectBoxItem){
         if(selectBox == "package"){
             packageList.click();
