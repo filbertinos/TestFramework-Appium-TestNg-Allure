@@ -23,7 +23,6 @@ public class InnerListPage extends BasePage {
 
     public InnerListPage(AndroidDriver driver){
         super(driver);
-        PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
 
     @AndroidFindBy(id="com.slava.buylist:id/textView1")
@@ -74,8 +73,9 @@ public class InnerListPage extends BasePage {
     }
 
     @Step("Click on add button")
-    public void clickAddItemButton(){
+    public InnerListPage clickAddItemButton(){
         addProductButton.click();
+        return this;
     }
 
     @Step("Verify item name")
@@ -83,10 +83,29 @@ public class InnerListPage extends BasePage {
         Assert.assertEquals(items.get(items.size()-1).findElement(By.id(labelNameLocator)).getText(),expectedName);
     }
 
+    @Step("Get item name")
+    public String getItemName(){
+        return items.get(items.size()-1).findElement(By.id(labelNameLocator)).getText();
+    }
+
+
     @Step("Verify item price")
     public void verifyItemPrice(String expectedPrice){
         String [] subStr = items.get(items.size()-1).findElement(By.id(labelPriceLocator)).getText().split(" ");
         Assert.assertEquals(subStr[0], expectedPrice);
+    }
+
+//    @Step("Get item price")
+////    public double getItemPrice(){
+////        //String [] subStr = items.get(items.size()-1).findElement(By.id(labelPriceLocator)).getText().split(" ");
+////        //return Double.parseDouble(subStr[0]);
+////        return Double.parseDouble(splitStringResult(labelPriceLocator,0));
+////
+////    }
+
+    @Step("Get item price")
+    public String getItemPrice(){
+        return splitStringResult(labelPriceLocator,0);
     }
 
 
@@ -96,16 +115,39 @@ public class InnerListPage extends BasePage {
         Assert.assertEquals(subStr[0], expectedAmount);
     }
 
+//    @Step("Get item amount")
+//    public double getItemAmount(){
+//        //String [] subStr = items.get(items.size()-1).findElement(By.id(labelAmountLocator)).getText().split(" ");
+//        return Double.parseDouble(splitStringResult(labelAmountLocator,0));
+//    }
+
+    @Step("Get item amount")
+    public String getItemAmount(){
+        //String [] subStr = items.get(items.size()-1).findElement(By.id(labelAmountLocator)).getText().split(" ");
+        return splitStringResult(labelAmountLocator,0);
+    }
+
     @Step("Verify item package")
     public void verifyItemPackage(String expectedPackage){
         String [] subStr = items.get(items.size()-1).findElement(By.id(labelAmountLocator)).getText().split(" ");
         Assert.assertEquals(subStr[1], expectedPackage);
     }
 
+    @Step("Get item package")
+    public String getItemPackage(){
+        return splitStringResult(labelAmountLocator,1);
+    }
+
+
     @Step("Verify item comment")
     public void verifyItemComment(String expectedComment){
         Assert.assertEquals(items.get(items.size()-1).findElement(By.id(labelCommentLocator)).getText(),expectedComment);
 
+    }
+
+    @Step("Get item comment")
+    public String getItemComment(){
+        return items.get(items.size()-1).findElement(By.id(labelCommentLocator)).getText();
     }
 
     @Step("Verify item name for MyList")
@@ -151,34 +193,58 @@ public class InnerListPage extends BasePage {
     }
 
     @Step("Type item name")
-    public void typeItemName(String name){
+    public InnerListPage typeItemName(String name){
         addProductBox.sendKeys(name);
+        return this;
     }
 
     @Step("Type item price")
-    public void typeItemPrice(String price){
-        priceBox.sendKeys(price);
+    public InnerListPage typeItemPrice(String price){
+        if(price.equals("") ){
+
+        }
+        else{
+            priceBox.sendKeys(price);
+        }
+        return this;
     }
 
     @Step("Type item amount")
-    public void typeItemAmount(String amount){
-        amountBox.sendKeys(amount);
-    }
+    public InnerListPage typeItemAmount(String amount){
+        if(amount.equals("")){
+
+        }
+        else{
+            amountBox.sendKeys(amount);
+        }
+        return this;
+        }
 
     @Step("Type item comment")
-    public void typeItemComment(String comment){
-        commentBox.sendKeys(comment);
+    public InnerListPage typeItemComment(String comment){
+        if(comment.equals("")){
+
+        }
+        else{
+            commentBox.sendKeys(comment);
+        }
+        return this;
     }
 
     @Step("Select item in SelectBox")
-    public void selectBoxUse(String selectBox, String selectBoxItem){
-        if(selectBox == "package"){
-            packageList.click();
+    public InnerListPage selectBoxUse(String selectBox, String selectBoxItem){
+        if(selectBoxItem.equals("")){
+
         }
-        else if(selectBox == "category"){
-            listofCategories.click();
+        else {
+            if (selectBox.equals("package")) {
+                packageList.click();
+            } else if (selectBox.equals("category")) {
+                listofCategories.click();
+            }
+            selectDialog.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + selectBoxItem + "\"))").click();
         }
-        selectDialog.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"" + selectBoxItem + "\"))").click();
+        return this;
     }
 
     @Step("Long press by name")
@@ -237,5 +303,17 @@ public class InnerListPage extends BasePage {
         driver.findElementByAndroidUIAutomator("text(\"Add from my list\")").click();
         driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")").click();
         addProductButton.click();
+    }
+
+    public String splitStringResult(String locator, int index){
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        String[] subStr;
+        if(items.get(items.size()-1).findElements(By.id(locator)).isEmpty()){
+            return "";
+        }
+        else {
+            subStr = items.get(items.size() - 1).findElement(By.id(locator)).getText().split(" ");
+        }
+        return subStr[index];
     }
 }

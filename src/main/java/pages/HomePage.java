@@ -11,6 +11,7 @@ import org.testng.Assert;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 public class HomePage extends BasePage {
     String titleLocator = "com.slava.buylist:id/title";
     String editButtonLocator = "com.slava.buylist:id/imageView2";
@@ -18,9 +19,8 @@ public class HomePage extends BasePage {
 
     public HomePage (AndroidDriver driver) {
         super(driver);
-        PageFactory.initElements(new AppiumFieldDecorator(driver),this);
-
     }
+
     @AndroidFindBy(id="com.slava.buylist:id/editText1")
     public WebElement editBox;
 
@@ -40,7 +40,7 @@ public class HomePage extends BasePage {
     AndroidElement deleteButton;
 
     @AndroidFindBy(className = "android.widget.EditText")
-    WebElement editNameBox;
+    AndroidElement editNameBox;
 
     @AndroidFindBy(id = "android:id/button1")
     AndroidElement editBoxOkButton;
@@ -49,13 +49,15 @@ public class HomePage extends BasePage {
     AndroidElement settingsButton;
 
     @Step("Type list name")
-    public void typeNameInEditBox(String name){
+    public HomePage typeNameInEditBox(String name){
         editBox.sendKeys(name);
+        return this;
     }
 
     @Step("Click add button")
-    public void clickAddButton(){
+    public HomePage clickAddButton(){
         addButton.click();
+        return this;
     }
 
 
@@ -64,34 +66,53 @@ public class HomePage extends BasePage {
         Assert.assertEquals(listOfLists.get(listOfLists.size()-1).findElement(By.id(titleLocator)).getText(),expectedName);
     }
 
+    @Step("Verify list name in MainActivity")
+    public String getLastListText(){
+       return listOfLists.get(listOfLists.size()-1).findElement(By.id(titleLocator)).getText();
+    }
+
     @Step("Click listTitle")
-    public void clickListTitle(String listName){
+    public HomePage clickListTitle(String listName){
         driver.findElementByAndroidUIAutomator("text(\""+listName+"\")").click();
+        return this;
     }
 
     @Step("Rename list by number")
-    public void renameListByNumber(String newListName, int listNumber){
+    public HomePage renameListByNumber(String newListName, int listNumber){
         listOfLists.get(listNumber).findElementById(editButtonLocator).click();
         editNameBox.sendKeys(newListName);
         editBoxOkButton.click();
+        return this;
     }
 
     @Step("Click settings button and Add to My List")
-    public void addtoMyListFromHomePage(){
+    public HomePage addtoMyListFromHomePage(){
         settingsButton.click();
         driver.findElementByAndroidUIAutomator("text(\"My List\")").click();
+        return this;
     }
 
     @Step("Delete list")
-    public void deleteListByNumber(int listNumber){
+    public HomePage deleteListByNumber(int listNumber){
         listOfLists.get(listNumber).findElementById(deleteButtonLocator).click();
         editBoxOkButton.click();
+        return this;
     }
 
     @Step("Verify that list is deleted")
     public void verifyListDeleted(String listName){
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         Assert.assertFalse(!driver.findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty());
+    }
+
+    @Override
+    public HomePage pressBack(){
+        return (HomePage) super.pressBack();
+    }
+
+    @Override
+    public HomePage hideKeyboard(){
+        return (HomePage) super.hideKeyboard();
     }
 
 
