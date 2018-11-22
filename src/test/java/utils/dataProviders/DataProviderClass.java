@@ -13,7 +13,8 @@ public class DataProviderClass {
 
         result = new Object[][] {
                 { "ShoppingList"},
-                { "Mylist2"}
+                { "Mylist2"},
+                {"ThirdList"}
         };
 
         return result;
@@ -63,7 +64,57 @@ public class DataProviderClass {
                 {"Apples", "3", "", "", "", ""},
                 {"Sugar", "3", "2", "pcs.", "", ""},
                 {"Milk", "2", "3", "l", "5% fat", ""},
-                {"Beer", "1.5", "3", "bottles", "5% fat", "Drinks, juices"}
+                {"Beer", "1.5", "5", "bottles", "Light", "Drinks, juices"},
+       };
+        return result;
+    }
+    @DataProvider(name = "data-provider-edit-items")
+    public static Object[][] dataProviderEditItems()
+    {
+
+        Object[][] result;
+
+        result = new Object[][]{
+                {"Beer","Beer", "10", "2.5", "bottles", "Dark", "Drinks, juices"},
+                {"Apples","Macintosh", "", "", "", "Green", "Fruits, vegetables, pickles"}
+        };
+        return result;
+    }
+
+    @DataProvider(name = "data-provider-delete-items")
+    public static Object[][] dataProviderDeleteItems()
+    {
+
+        Object[][] result;
+
+        result = new Object[][]{
+                {"Matches"}
+        };
+        return result;
+    }
+
+    @DataProvider(name = "data-provider-copy-items")
+    public static Object[][] dataProviderCopyItems()
+    {
+
+        Object[][] result;
+
+        result = new Object[][]{
+                {"Sugar","Mylist2","ShoppingList"},
+                {"Milk", "ThirdList","ShoppingList"}
+        };
+        return result;
+    }
+
+    @DataProvider(name = "data-provider-my-list")
+    public static Object[][] dataProviderTyList()
+    {
+
+        Object[][] result;
+
+        result = new Object[][]{
+                {"Meat", "", "3", "kg.", "for barbecue", ""},
+                {"Sauce", "", "", "", "for meat", ""}
         };
         return result;
     }

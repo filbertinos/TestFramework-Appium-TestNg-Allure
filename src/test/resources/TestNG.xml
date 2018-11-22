@@ -5,8 +5,12 @@
         <listener class-name="utils.Listeners.TestListener"/>
         <!--<listener class-name="utils.Listeners.AnnotationTransformer"/>-->
     </listeners>
-
     <test name="TestApp">
+        <!--<groups>-->
+            <!--<run>-->
+                <!--<include name="items" />-->
+            <!--</run>-->
+        <!--</groups>-->
         <classes>
             <class name="tests.TestApp"/>
         </classes>

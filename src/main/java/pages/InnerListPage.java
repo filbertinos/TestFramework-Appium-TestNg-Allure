@@ -8,8 +8,11 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.touch.LongPressOptions;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import static io.appium.java_client.touch.offset.ElementOption.element;
@@ -40,8 +43,11 @@ public class InnerListPage extends BasePage {
     @AndroidFindBy(id="com.slava.buylist:id/editText3")
     AndroidElement amountBox;
 
-    @AndroidFindBy(id="com.slava.buylist:id/rr1")
+    @AndroidFindBy(id="com.slava.buylist:id/item")
     List<AndroidElement> items;
+
+    @AndroidFindBy(id="com.slava.buylist:id/textView1")
+    List<AndroidElement> prices;
 
     @AndroidFindBy(id="com.slava.buylist:id/editText4")
     AndroidElement commentBox;
@@ -64,7 +70,7 @@ public class InnerListPage extends BasePage {
     @AndroidFindBy(id = "com.slava.buylist:id/button1")
     AndroidElement settingsButton;
 
-    TouchAction ta = new TouchAction(driver);
+    private TouchAction ta = new TouchAction(driver);
 
 
     @Step("Verify list name in AddActivity")
@@ -88,6 +94,25 @@ public class InnerListPage extends BasePage {
         return items.get(items.size()-1).findElement(By.id(labelNameLocator)).getText();
     }
 
+    @Step("Get item name by item number")
+    public String getItemNameByNumber(int number){
+        return items.get(number).findElement(By.id(labelNameLocator)).getText();
+    }
+
+    //splitStringResultByItemNumber
+
+    @Step("Get item info by name")
+    public String getItemNameByName(String itemName){
+        for (AndroidElement item:
+             items) {
+            if(item.findElementByAndroidUIAutomator("text(\"" + itemName + "\")").getText().equals(itemName)){
+                return item.findElementById(labelNameLocator).getText();
+            }
+
+        }
+        return "error";
+
+    }
 
     @Step("Verify item price")
     public void verifyItemPrice(String expectedPrice){
@@ -95,17 +120,14 @@ public class InnerListPage extends BasePage {
         Assert.assertEquals(subStr[0], expectedPrice);
     }
 
-//    @Step("Get item price")
-////    public double getItemPrice(){
-////        //String [] subStr = items.get(items.size()-1).findElement(By.id(labelPriceLocator)).getText().split(" ");
-////        //return Double.parseDouble(subStr[0]);
-////        return Double.parseDouble(splitStringResult(labelPriceLocator,0));
-////
-////    }
-
     @Step("Get item price")
     public String getItemPrice(){
         return splitStringResult(labelPriceLocator,0);
+    }
+
+    @Step("Get item price by item name")
+    public String getItemPriceByName(String itemnName){
+        return splitStringResultByItemNumber(labelPriceLocator,0, getItemNumber(itemnName));
     }
 
 
@@ -127,6 +149,11 @@ public class InnerListPage extends BasePage {
         return splitStringResult(labelAmountLocator,0);
     }
 
+    @Step("Get item price by item name")
+    public String getItemAmountByName(String itemnName){
+        return splitStringResultByItemNumber(labelAmountLocator,0, getItemNumber(itemnName));
+    }
+
     @Step("Verify item package")
     public void verifyItemPackage(String expectedPackage){
         String [] subStr = items.get(items.size()-1).findElement(By.id(labelAmountLocator)).getText().split(" ");
@@ -136,6 +163,11 @@ public class InnerListPage extends BasePage {
     @Step("Get item package")
     public String getItemPackage(){
         return splitStringResult(labelAmountLocator,1);
+    }
+
+    @Step("Get item price by item name")
+    public String getItemPackageByName(String itemnName){
+        return splitStringResultByItemNumber(labelAmountLocator,1, getItemNumber(itemnName));
     }
 
 
@@ -150,7 +182,19 @@ public class InnerListPage extends BasePage {
         return items.get(items.size()-1).findElement(By.id(labelCommentLocator)).getText();
     }
 
+    @Step("Get item price by item name")
+    public String getItemCommentByNumber(int number){
+        return items.get(number).findElement(By.id(labelCommentLocator)).getText();
+    }
+
+
+
     @Step("Verify item name for MyList")
+    public String getItemNameMyList(){
+        return items.get(0).findElement(By.id(labelNameLocator)).getText();
+    }
+
+    @Step("Get item name for MyList")
     public void verifyItemNameMyList(String expectedName){
         Assert.assertEquals(items.get(0).findElement(By.id(labelNameLocator)).getText(),expectedName);
     }
@@ -186,10 +230,45 @@ public class InnerListPage extends BasePage {
         Assert.assertTrue(items.get(items.size()-1).findElement(By.xpath("//preceding-sibling::android.widget.ImageView")).isDisplayed());
     }
 
+    //Split string "Total: total currency" and give "total"
     @Step("Check total")
     public void verifyTotal(String expectedTotal){
         String [] subStr = totalLabel.getText().split(" ");
         Assert.assertEquals(subStr[1], expectedTotal);
+    }
+
+    @Step("Calculate total")
+    public double calculateTotal(){
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        double sum = 0;
+        double finalSum = 0;
+        for (AndroidElement item: items) {
+          if(item.findElementsById(labelPriceLocator).size()>0 && item.findElementsById(labelAmountLocator).size()>0){
+              String [] amount = item.findElementById(labelAmountLocator).getText().split(" ");
+              String [] price = item.findElementById(labelPriceLocator).getText().split(" ");
+              sum = (Double.parseDouble(price[0]) * (Double.parseDouble(amount[0])));
+          }
+          else if(item.findElementsById(labelPriceLocator).size()==0 && item.findElementsById(labelAmountLocator).size()==0)
+          {
+              sum=0;
+          }
+          else if(item.findElementsById(labelPriceLocator).size()>0 && item.findElementsById(labelAmountLocator).size()==0){
+              String [] price = item.findElementById(labelPriceLocator).getText().split(" ");
+              sum = Double.parseDouble(price[0]);
+          }
+          else if(item.findElementsById(labelPriceLocator).size()==0 && item.findElementsById(labelAmountLocator).size()>0){
+              sum=0;
+          }
+            finalSum+=sum;
+        }
+
+        return finalSum;
+    }
+
+    @Step("Get total")
+    public double getTotal(){
+        String [] subStr = totalLabel.getText().split(" ");
+        return Double.parseDouble(subStr[1]);
     }
 
     @Step("Type item name")
@@ -258,9 +337,10 @@ public class InnerListPage extends BasePage {
     }
 
     @Step("Edit item by name")
-    public void editItemByName(String itemName){
+    public InnerListPage editItemByName(String itemName){
         longPressByName(itemName);
         selectDialog.findElementByAndroidUIAutomator("text(\"Edit\")").click();
+        return this;
     }
 
     @Step("Edit item by number")
@@ -285,24 +365,26 @@ public class InnerListPage extends BasePage {
 
 
     @Step("Verify by name that item does not exist")
-    public void itemNotExistCheck(String itemName){
+    public boolean itemNotExistCheck(String itemName){
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        Assert.assertFalse(!driver.findElementsByAndroidUIAutomator("text(\""+itemName+"\")").isEmpty());
+        return !driver.findElementsByAndroidUIAutomator("text(\""+itemName+"\")").isEmpty();
     }
 
     @Step("Copy item by name")
-    public void copyItemByName(String itemName, String toList){
+    public InnerListPage copyItemByName(String itemName, String toList){
         longPressByName(itemName);
         selectDialog.findElementByAndroidUIAutomator("text(\"Copy\")").click();
         driver.findElementByAndroidUIAutomator("text(\""+toList+"\")").click();
+        return this;
     }
 
     @Step("Click setting button and Add From My List")
-    public void addFromMyListInInnerPage(String itemName){
+    public InnerListPage addFromMyListInInnerPage(String itemName){
         settingsButton.click();
         driver.findElementByAndroidUIAutomator("text(\"Add from my list\")").click();
         driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")").click();
         addProductButton.click();
+        return this;
     }
 
     public String splitStringResult(String locator, int index){
@@ -316,4 +398,27 @@ public class InnerListPage extends BasePage {
         }
         return subStr[index];
     }
+
+    public int getItemNumber(String itemName){
+        int num = 0;
+       for(int i = 0;i<items.size();i++){
+           if(!items.get(i).findElementsByAndroidUIAutomator("text(\""+itemName+"\")").isEmpty()){
+               num = i;
+           }
+       }
+       return num;
+    }
+
+    public String splitStringResultByItemNumber(String locator, int index, int number){
+        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        String[] subStr;
+        if(items.get(number).findElements(By.id(locator)).isEmpty()){
+            return "";
+        }
+        else {
+            subStr = items.get(number).findElement(By.id(locator)).getText().split(" ");
+        }
+        return subStr[index];
+    }
+
 }
