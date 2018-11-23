@@ -1,4 +1,5 @@
 package pages;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -67,6 +68,11 @@ public class HomePage extends BasePage {
     }
 
     @Step("Verify list name in MainActivity")
+    public String getListName(){
+        return listOfLists.get(listOfLists.size()-1).findElement(By.id(titleLocator)).getText();
+    }
+
+    @Step("Verify list name in MainActivity")
     public String getLastListText(){
        return listOfLists.get(listOfLists.size()-1).findElement(By.id(titleLocator)).getText();
     }
@@ -105,6 +111,12 @@ public class HomePage extends BasePage {
         Assert.assertFalse(!driver.findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty());
     }
 
+    @Step("Get false if list deleted deleted")
+    public boolean isListDeleted(String listName){
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        return !driver.findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty();
+    }
+
     @Override
     public HomePage pressBack(){
         return (HomePage) super.pressBack();
@@ -115,6 +127,21 @@ public class HomePage extends BasePage {
         return (HomePage) super.hideKeyboard();
     }
 
+    public HomePage startMainActivity(){
+        driver.startActivity(new Activity("com.slava.buylist", "MainActivity"));
+        return this;
+
+    }
+
+    public int getListNumber(String listName){
+        int num = 0;
+        for(int i = 0;i<listOfLists.size();i++){
+            if(!listOfLists.get(i).findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty()){
+                num = i;
+            }
+        }
+        return num;
+    }
 
 
 }

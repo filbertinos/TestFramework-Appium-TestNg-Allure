@@ -13,7 +13,7 @@ import org.testng.Assert;
 import io.appium.java_client.android.nativekey.KeyEvent;
 
 
-public class BasePage {
+public class BasePage extends Assert {
     protected AndroidDriver driver;
 
     public BasePage(AndroidDriver driver) {

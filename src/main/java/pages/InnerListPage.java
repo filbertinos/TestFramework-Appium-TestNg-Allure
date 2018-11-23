@@ -1,6 +1,7 @@
 package pages;
 
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -126,8 +127,8 @@ public class InnerListPage extends BasePage {
     }
 
     @Step("Get item price by item name")
-    public String getItemPriceByName(String itemnName){
-        return splitStringResultByItemNumber(labelPriceLocator,0, getItemNumber(itemnName));
+    public String getItemPriceByName(String itemName){
+        return splitStringResultByItemNumber(labelPriceLocator,0, getItemNumber(itemName));
     }
 
 
@@ -409,16 +410,19 @@ public class InnerListPage extends BasePage {
        return num;
     }
 
-    public String splitStringResultByItemNumber(String locator, int index, int number){
+    private String splitStringResultByItemNumber(String locator, int index, int number) {
         driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
-        String[] subStr;
-        if(items.get(number).findElements(By.id(locator)).isEmpty()){
+        try {
+            String[] subStr = items.get(number).findElement(By.id(locator)).getText().split(" ");
+            return subStr[index];
+        }
+        catch (org.openqa.selenium.NoSuchElementException e){
             return "";
         }
-        else {
-            subStr = items.get(number).findElement(By.id(locator)).getText().split(" ");
         }
-        return subStr[index];
-    }
+
+        public void startAddActivity(){
+            driver.startActivity(new Activity("com.slava.buylist", "MainActivity"));
+        }
 
 }

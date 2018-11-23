@@ -7,6 +7,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.HomePage;
 import pages.InnerListPage;
@@ -54,6 +55,8 @@ public class BaseTest {
             driver.hideKeyboard();
         }
     }
+
+
 
     private void prepareDevice() throws MalformedURLException {
         File fs = new File(pathToFile);

@@ -76,7 +76,7 @@ public class DataProviderClass {
 
         result = new Object[][]{
                 {"Beer","Beer", "10", "2.5", "bottles", "Dark", "Drinks, juices"},
-                {"Apples","Macintosh", "", "", "", "Green", "Fruits, vegetables, pickles"}
+                {"Apples","Macintosh", "3", "", "", "Green", "Fruits, vegetables, pickles"}
         };
         return result;
     }
@@ -115,6 +115,18 @@ public class DataProviderClass {
         result = new Object[][]{
                 {"Meat", "", "3", "kg.", "for barbecue", ""},
                 {"Sauce", "", "", "", "for meat", ""}
+        };
+        return result;
+    }
+
+    @DataProvider(name = "data-provider-main-activity")
+    public static Object[][] dataProviderMainScreen()
+    {
+
+        Object[][] result;
+
+        result = new Object[][]{
+                {"BuyLis", "BuyList"}
         };
         return result;
     }

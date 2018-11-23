@@ -2,6 +2,7 @@ package utils.Listeners;
 
 import com.relevantcodes.extentreports.LogStatus;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -63,7 +64,7 @@ public class TestListener extends BaseTest implements ITestListener {
 
         //Get driver from BaseTest and assign to local androiddriver variable.
         Object testClass = iTestResult.getInstance();
-        AppiumDriver driver = ((BaseTest) testClass).getDriver();
+        AndroidDriver driver = ((BaseTest) testClass).getDriver();
 
             System.out.println("Screenshot captured for test case:" + getTestMethodName(iTestResult));
             saveScreenshotPNG(driver);

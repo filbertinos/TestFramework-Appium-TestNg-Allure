@@ -44,19 +44,21 @@ public class TestApp extends BaseTest {
     @Test(priority = 1, description = "Add item to MyList from Home Page", dataProvider = "data-provider-my-list", dataProviderClass = DataProviderClass.class, groups = {"mylist"})
     @Description("Test Description: Add item to MyList from Home Page")
     public void addItemToMyListFromHomePage(String name, String price, String amount, String pack, String comment, String category) {
+        System.out.println("!!!!!!!!!!!"+getDriver().currentActivity()+"!!!!!!!!!!!!");
         innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
-        System.out.println("!!!!!!!!" + innerListPage.getItemNumber(name) + "!!!!!!!!");
         Assert.assertEquals(innerListPage.getItemName(), name);
         Assert.assertEquals(innerListPage.getItemPrice(), price);
         Assert.assertEquals(innerListPage.getItemAmount(), amount);
         Assert.assertEquals(innerListPage.getItemPackage(), pack);
         Assert.assertEquals(innerListPage.getItemComment(), comment);
+        //ListAddActivity
 
     }
 
-    @Test(priority = 1, dependsOnMethods = {"addNewListCheck"}, description = "Add new item with different number of parameters", dataProvider = "data-provider-items", dataProviderClass = DataProviderClass.class, groups = {"items"})
+    @Test(priority = 1, description = "Add new item with different number of parameters", dataProvider = "data-provider-items", dataProviderClass = DataProviderClass.class, groups = {"items"})
     @Description("Test Description: Add new item with different number of parameters")
     public void addNewItemWithDifferentNumberOfParameters(String name, String price, String amount, String pack, String comment, String category) {
+        //System.out.println("!!!!!!!!!!!"+getDriver().currentActivity()+"!!!!!!!!!!!!");
         innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemName(), name);
         Assert.assertEquals(innerListPage.getItemPrice(), price);
@@ -122,21 +124,17 @@ public class TestApp extends BaseTest {
         Assert.assertEquals(innerListPage.getItemCommentByNumber(innerListPage.getItemNumber(name)), comment);
     }
 
-//    @Test(priority = 8, dependsOnMethods = {"addSecondList"}, description = "#15 Rename existing list")
-//    @Description("Test Description: Rename existing list")
-//    public void renameList() {
-//        homePage.hideKeyboard();
-//        homePage.pressBack();
-//        homePage.renameListByNumber(list2NameNew,1);
-//        homePage.verifyListName(list2Name + list2NameNew);
-//    }
-//
-//    @Test(priority = 9, dependsOnMethods = {"addSecondList"}, description = "#16 Delete existing list")
-//    @Description("Test Description: Delete existing list")
-//    public void deleteList(){
-//        homePage.deleteListByNumber(1);
-//        homePage.verifyListDeleted(list2Name + list2NameNew);
-//    }
+    @Test(priority = 8, description = "Rename list", dataProvider = "data-provider-main-activity", dataProviderClass = DataProviderClass.class)
+    @Description("Test Description: Rename existing list")
+    public void renameList(String name, String newName) {
+        Assert.assertEquals(homePage.startMainActivity().typeNameInEditBox(name).clickAddButton().hideKeyboard().pressBack().renameListByNumber(newName,homePage.getListNumber(name)).getListName(),name+newName);
+    }
+
+    @Test(priority = 9, description = "elete existing list", dataProvider = "data-provider-main-activity", dataProviderClass = DataProviderClass.class)
+    @Description("Test Description: Delete existing list")
+    public void deleteList(String name, String newName){
+        Assert.assertFalse(homePage.startMainActivity().typeNameInEditBox(newName).clickAddButton().hideKeyboard().pressBack().deleteListByNumber(homePage.getListNumber(newName)).isListDeleted(newName));
+    }
 
 
 }
