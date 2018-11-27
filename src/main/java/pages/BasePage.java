@@ -13,7 +13,7 @@ import org.testng.Assert;
 import io.appium.java_client.android.nativekey.KeyEvent;
 
 
-public class BasePage extends Assert {
+public class BasePage{
     protected AndroidDriver driver;
 
     public BasePage(AndroidDriver driver) {
@@ -35,5 +35,12 @@ public class BasePage extends Assert {
         }
         return this;
     }
+
+    @Step("Click element")
+    public BasePage clickElement(WebElement element){
+        element.click();
+        return this;
+    }
+
 
 }

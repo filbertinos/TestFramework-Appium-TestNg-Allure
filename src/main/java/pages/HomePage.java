@@ -112,7 +112,7 @@ public class HomePage extends BasePage {
     }
 
     @Step("Get false if list deleted deleted")
-    public boolean isListDeleted(String listName){
+    public boolean isListExist(String listName){
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         return !driver.findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty();
     }

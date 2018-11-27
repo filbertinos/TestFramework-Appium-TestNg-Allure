@@ -1,13 +1,11 @@
 package tests;
 
 import config.DriverManager;
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.HomePage;
 import pages.InnerListPage;
@@ -57,13 +55,14 @@ public class BaseTest {
     }
 
 
-
     private void prepareDevice() throws MalformedURLException {
         File fs = new File(pathToFile);
         DesiredCapabilities dc = new DesiredCapabilities();
         dc.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
         dc.setCapability("avd",deviceName);
         dc.setCapability(MobileCapabilityType.APP, fs.getAbsolutePath());
+        //dc.setCapability("noReset", "false");
+        //dc.setCapability(MobileCapabilityType.NO_RESET, "false");
         driver = DriverManager.getInstance(dc);
     }
 }

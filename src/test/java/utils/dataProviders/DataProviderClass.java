@@ -119,6 +119,19 @@ public class DataProviderClass {
         return result;
     }
 
+    @DataProvider(name = "data-provider-my-list-independent")
+    public static Object[][] dataProviderToList()
+    {
+
+        Object[][] result;
+
+        result = new Object[][]{
+                {"Meat", "", "3", "kg.", "for barbecue", "","List"},
+                {"Sauce", "", "", "", "for meat", "","List"}
+        };
+        return result;
+    }
+
     @DataProvider(name = "data-provider-main-activity")
     public static Object[][] dataProviderMainScreen()
     {

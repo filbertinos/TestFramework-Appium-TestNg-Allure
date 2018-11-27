@@ -1,6 +1,5 @@
 package utils.Listeners;
 
-import com.relevantcodes.extentreports.LogStatus;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.qameta.allure.Attachment;
