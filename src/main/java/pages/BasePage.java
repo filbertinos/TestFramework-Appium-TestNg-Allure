@@ -36,11 +36,4 @@ public class BasePage{
         return this;
     }
 
-    @Step("Click element")
-    public BasePage clickElement(WebElement element){
-        element.click();
-        return this;
-    }
-
-
 }

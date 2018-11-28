@@ -7,7 +7,7 @@
     </listeners>
     <test name="TestApp">
         <classes>
-            <class name="tests.TestApp"/>
+            <class name="tests.TestAppEndToEnd"/>
         </classes>
     </test>
 </suite>

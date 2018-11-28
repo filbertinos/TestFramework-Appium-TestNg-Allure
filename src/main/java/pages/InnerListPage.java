@@ -423,8 +423,9 @@ public class InnerListPage extends BasePage {
         }
         }
 
-        public void startAddActivity(){
+        public InnerListPage startAddActivity(){
             driver.startActivity(new Activity("com.slava.buylist", "ListAddActivity"));
+            return this;
         }
 
 
