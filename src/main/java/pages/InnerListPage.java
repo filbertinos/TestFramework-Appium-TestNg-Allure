@@ -428,5 +428,11 @@ public class InnerListPage extends BasePage {
             return this;
         }
 
+        @Step("Type item info")
+        public InnerListPage typeItemInfo(String name, String price, String amount, String pack, String comment, String category){
+            typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category);
+            return this;
+        }
+
 
 }

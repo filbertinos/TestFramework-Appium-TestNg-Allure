@@ -44,20 +44,14 @@ public class TestAppEndToEnd extends BaseTest {
     @Test(priority = 1, description = "Add item to MyList from Home Page", dataProvider = "data-provider-my-list", dataProviderClass = DataProviderClass.class, groups = {"mylist"})
     @Description("Test Description: Add item to MyList from Home Page")
     public void addItemToMyListFromHomePage(String name, String price, String amount, String pack, String comment, String category) {
-        innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
+        innerListPage.typeItemInfo(name, price, amount, pack, comment, category).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(name, innerListPage.getItemNumber(name)),name+","+price+","+amount+","+pack+","+comment);
-//        Assert.assertEquals(innerListPage.getItemName(), name);
-//        Assert.assertEquals(innerListPage.getItemPrice(), price);
-//        Assert.assertEquals(innerListPage.getItemAmount(), amount);
-//        Assert.assertEquals(innerListPage.getItemPackage(), pack);
-//        Assert.assertEquals(innerListPage.getItemComment(), comment);
-
     }
 
     @Test(priority = 2, dependsOnMethods = {"addNewListCheck"},  description = "Add new item with different number of parameters", dataProvider = "data-provider-items", dataProviderClass = DataProviderClass.class, groups = {"items"})
     @Description("Test Description: Add new item with different number of parameters")
     public void addNewItemWithDifferentNumberOfParameters(String name, String price, String amount, String pack, String comment, String category) {
-        innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
+        innerListPage.typeItemInfo(name, price, amount, pack, comment, category).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(name, innerListPage.getItemNumber(name)),name+","+price+","+amount+","+pack+","+comment);
     }
 
@@ -65,26 +59,21 @@ public class TestAppEndToEnd extends BaseTest {
     @Test(priority = 3, dependsOnMethods = {"addNewListCheck", "addNewItemWithDifferentNumberOfParameters"}, alwaysRun = true, description = "Check total sum for items")
     @Description("Test Description: Check total price of items")
     public void checkTotal() {
-        Assert.assertEquals(innerListPage.getTotal(), 22.5);
+        Assert.assertEquals(innerListPage.getTotal(), DataProviderClass.dataProviderTotal()[0][0]);
 
     }
 
     @Test(priority = 4, dependsOnMethods = {"addNewListCheck", "addNewItemWithDifferentNumberOfParameters"}, description = "Edit existing item", dataProvider = "data-provider-edit-items", dataProviderClass = DataProviderClass.class)
     @Description("Test Description: Edit existing item in the list")
     public void editItem(String itemName, String newItemName, String newPrice, String newAmount, String newPack, String newComment, String newCategory) {
-        innerListPage.editItemByName(itemName).typeItemName(newItemName).typeItemPrice(newPrice).typeItemAmount(newAmount).selectBoxUse("package", newPack).typeItemComment(newComment).selectBoxUse("category", newCategory).clickAddItemButton();
+        innerListPage.editItemByName(itemName).typeItemInfo(newItemName, newPrice, newAmount, newPack, newComment, newCategory).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(newItemName, innerListPage.getItemNumber(newItemName)),newItemName+","+newPrice+","+newAmount+","+newPack+","+newComment);
-//        Assert.assertEquals(innerListPage.getItemNameByNumber(innerListPage.getItemNumber(newItemName)), newItemName);
-//        Assert.assertEquals(innerListPage.getItemPriceByName(newItemName), newPrice);
-//        Assert.assertEquals(innerListPage.getItemAmountByName(newItemName), newAmount);
-//        Assert.assertEquals(innerListPage.getItemPackageByName(newItemName), newPack);
-//        Assert.assertEquals(innerListPage.getItemCommentByNumber(innerListPage.getItemNumber(newItemName)), newComment);
     }
 
     @Test(priority =5, dependsOnMethods = {"addNewListCheck", "addNewItemWithDifferentNumberOfParameters", "editItem"}, alwaysRun = true, description = "Check total sum for items after editing item")
     @Description("Test Description: Check total price of items after editing item")
     public void checkTotalAfterEditItem() {
-        Assert.assertEquals(innerListPage.getTotal(), 40.0);
+        Assert.assertEquals(innerListPage.getTotal(), DataProviderClass.dataProviderTotal()[1][0]);
     }
 
     @Test(priority = 6, dependsOnMethods = {"addNewListCheck", "addNewItemWithDifferentNumberOfParameters"}, description = "Delete existing item", dataProvider = "data-provider-delete-items", dataProviderClass = DataProviderClass.class)

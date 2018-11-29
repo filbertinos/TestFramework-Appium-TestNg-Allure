@@ -70,7 +70,7 @@ public class TestAppIndependent extends BaseTest {
     @Description("Test Description: Add item to MyList from Home Page")
     public void addItemToMyListAndAfterAddFromMyList(String name, String price, String amount, String pack, String comment, String category,String listName) {
         homePage.addtoMyListFromHomePage();
-        innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
+        innerListPage.typeItemInfo(name, price, amount, pack, comment, category).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(name, innerListPage.getItemNumber(name)),name+","+price+","+amount+","+pack+","+comment);
         innerListPage.hideKeyboard().pressBack();
         homePage.clickListTitle(listName);
@@ -82,17 +82,17 @@ public class TestAppIndependent extends BaseTest {
     @Test(priority = 4,  description = "Add new item with different number of parameters", dataProvider = "data-provider-items", dataProviderClass = DataProviderClass.class, groups = {"items"})
     @Description("Test Description: Add new item with different number of parameters")
     public void addNewItemWithDifferentNumberOfParameters(String name, String price, String amount, String pack, String comment, String category) {
-        innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
+        innerListPage.typeItemInfo(name, price, amount, pack, comment, category).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(name, innerListPage.getItemNumber(name)),name+","+price+","+amount+","+pack+","+comment);
     }
 
     @Test(priority = 5, description = "Edit existing item", dataProvider = "data-provider-edit-items-indy", dataProviderClass = DataProviderClass.class, groups = {"items-edit"})
     @Description("Test Description: Edit existing item in the list")
     public void editItem(String name, String price, String amount, String pack, String comment, String category, String newItemName, String newPrice, String newAmount, String newPack, String newComment, String newCategory, double total, double totalAfterEdit) {
-        innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
+        innerListPage.typeItemInfo(name, price, amount, pack, comment, category).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(name, innerListPage.getItemNumber(name)),name+","+price+","+amount+","+pack+","+comment);
         Assert.assertEquals(innerListPage.getTotal(), total);
-        innerListPage.editItemByName(name).typeItemName(newItemName).typeItemPrice(newPrice).typeItemAmount(newAmount).selectBoxUse("package", newPack).typeItemComment(newComment).selectBoxUse("category", newCategory).clickAddItemButton();
+        innerListPage.editItemByName(name).typeItemInfo(newItemName, newPrice, newAmount, newPack, newComment, newCategory).clickAddItemButton();
         Assert.assertEquals(innerListPage.getItemInfo(newItemName, innerListPage.getItemNumber(newItemName)),newItemName+","+newPrice+","+newAmount+","+newPack+","+newComment);
         Assert.assertEquals(innerListPage.getTotal(), totalAfterEdit);
     }
@@ -108,7 +108,7 @@ public class TestAppIndependent extends BaseTest {
     @Test(priority = 7, description = "Copy item in new list", dataProvider = "data-provider-copy-items-indy", dataProviderClass = DataProviderClass.class, groups = {"items-copy"})
     @Description("Test Description: Copy existing item in another list")
     public void copyItem(String name, String price, String amount, String pack, String comment, String category, String toListName, String listName) {
-        innerListPage.typeItemName(name).typeItemPrice(price).typeItemAmount(amount).selectBoxUse("package", pack).typeItemComment(comment).selectBoxUse("category", category).clickAddItemButton();
+        innerListPage.typeItemInfo(name, price, amount, pack, comment, category).clickAddItemButton();
         innerListPage.copyItemByName(name, toListName).pressBack();
         homePage.clickListTitle(toListName);
         Assert.assertEquals(innerListPage.getItemName(), name);
