@@ -11,13 +11,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import io.appium.java_client.android.nativekey.KeyEvent;
-
+import utilities.MobileActions;
 
 public class BasePage{
     protected AndroidDriver driver;
+    protected MobileActions mobileActions;
 
     public BasePage(AndroidDriver driver) {
         this.driver = driver;
+        mobileActions = new MobileActions(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
 

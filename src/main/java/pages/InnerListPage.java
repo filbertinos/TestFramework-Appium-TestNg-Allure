@@ -67,7 +67,7 @@ public class InnerListPage extends BasePage {
     @AndroidFindBy(id = "com.slava.buylist:id/button1")
     AndroidElement settingsButton;
 
-    private TouchAction ta = new TouchAction(driver);
+    //private TouchAction ta = new TouchAction(driver);
 
 
     @Step("Verify list name in AddActivity")
@@ -331,12 +331,15 @@ public class InnerListPage extends BasePage {
 
     @Step("Long press by name")
     public void longPressByName(String itemName){
-        ta.longPress(LongPressOptions.longPressOptions().withElement(element(driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")")))).perform();
+        //ta.longPress(LongPressOptions.longPressOptions().withElement(element(driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")")))).perform();
+        mobileActions.longPress((AndroidElement) driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")"));
     }
 
     @Step("Long press by number")
     public void longPressByNumber(Integer itemNumber){
-        ta.longPress(LongPressOptions.longPressOptions().withElement(element(items.get(itemNumber)))).perform();
+        //ta.longPress(LongPressOptions.longPressOptions().withElement(element(items.get(itemNumber)))).perform();
+        mobileActions.longPress(items.get(itemNumber));
+
     }
 
     @Step("Edit item by name")
