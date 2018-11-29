@@ -10,7 +10,7 @@ import utils.Listeners.TestListener;
 import utils.dataProviders.DataProviderClass;
 
 @Listeners({TestListener.class})
-@Epic("Independent =tests of main functionality")
+@Epic("Independent tests of main functionality")
 @Feature("Main functionality")
 public class TestAppIndependent extends BaseTest {
     @BeforeGroups("mylist")
@@ -23,9 +23,11 @@ public class TestAppIndependent extends BaseTest {
         homePage.startMainActivity().typeNameInEditBox((String)DataProviderClass.dataProviderLists()[0][0]).clickAddButton();
     }
 
+
     @AfterGroups("items")
     public void checkTotal() {
         Assert.assertEquals(innerListPage.getTotal(), DataProviderClass.dataProviderTotal()[0][0]);
+        homePage.startMainActivity().deleteListByNumber(homePage.getListNumber((String)DataProviderClass.dataProviderLists()[0][0]));
     }
 
     @BeforeGroups("items-edit")

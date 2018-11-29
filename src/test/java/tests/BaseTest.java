@@ -19,7 +19,6 @@ public class BaseTest {
     private final static String pathToFile = "app/sl.apk";
 
     private AndroidDriver driver;
-    public WebDriverWait wait;
     private AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
 
     public AndroidDriver getDriver() {

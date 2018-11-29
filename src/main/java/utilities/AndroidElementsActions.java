@@ -34,7 +34,7 @@ public class AndroidElementsActions {
     }
 
     //Tap to an element for 250 milliseconds
-    public void tapByElement (AndroidElement androidElement, int mSec) {
+    public void tapByElement (AndroidElement androidElement, long mSec) {
         new TouchAction(driver)
                 .tap(tapOptions().withElement(element(androidElement)))
                 .waitAction(waitOptions(Duration.ofMillis(mSec))).perform();

@@ -105,13 +105,13 @@ public class HomePage extends BasePage {
 
     @Step("Verify that list is deleted")
     public void verifyListDeleted(String listName){
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         Assert.assertFalse(!driver.findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty());
     }
 
     @Step("Get false if list deleted deleted")
     public boolean isListExist(String listName){
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         return !driver.findElementsByAndroidUIAutomator("text(\""+listName+"\")").isEmpty();
     }
 
