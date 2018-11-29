@@ -1,25 +1,19 @@
 package pages;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.qameta.allure.Step;
-import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import io.appium.java_client.android.nativekey.KeyEvent;
-import utilities.MobileActions;
+import utilities.AndroidElementsActions;
 
 public class BasePage{
-    protected AndroidDriver driver;
-    protected MobileActions mobileActions;
+    AndroidDriver driver;
+    AndroidElementsActions androidElementsActions;
 
-    public BasePage(AndroidDriver driver) {
+    BasePage(AndroidDriver driver) {
         this.driver = driver;
-        mobileActions = new MobileActions(driver);
+        androidElementsActions = new AndroidElementsActions(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
 

@@ -28,11 +28,11 @@ public class TestAppEndToEnd extends BaseTest {
     public void goToMainPage() {
         innerListPage.hideKeyboard().pressBack();
     }
-//
-//    @BeforeGroups("lists")
-//    public void goToListsPage(){
-//        homePage.hideKeyboard().pressBack();
-//    }
+////    @BeforeGroups("lists")
+////    public void goToListsPage(){
+////        homePage.hideKeyboard().pressBack();
+////    }
+
 
     @Test(priority = 0, description = "Add new list and check its name", dataProvider = "data-provider-lists", dataProviderClass = DataProviderClass.class)
     @Severity(SeverityLevel.BLOCKER)

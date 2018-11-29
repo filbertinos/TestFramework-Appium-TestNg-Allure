@@ -16,26 +16,28 @@ import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.time.Duration.ofMillis;
 import static java.time.Duration.ofSeconds;
 
-public class MobileActions {
+public class AndroidElementsActions {
 
     private AndroidDriver driver;
 
-    public MobileActions (AndroidDriver driver) {
+    public AndroidElementsActions(AndroidDriver driver) {
         this.driver = driver;
     }
 
-    //Long press to element
+    //Long press by element
     public void longPress(AndroidElement androidElement){
-        new TouchAction(driver).
-        longPress(LongPressOptions.longPressOptions().withElement(element(androidElement))).perform();
+        new TouchAction(driver)
+                .longPress(LongPressOptions.longPressOptions()
+                .withElement(element(androidElement)))
+                .perform();
 
     }
 
     //Tap to an element for 250 milliseconds
-    public void tapByElement (AndroidElement androidElement) {
+    public void tapByElement (AndroidElement androidElement, int mSec) {
         new TouchAction(driver)
                 .tap(tapOptions().withElement(element(androidElement)))
-                .waitAction(waitOptions(Duration.ofMillis(250))).perform();
+                .waitAction(waitOptions(Duration.ofMillis(mSec))).perform();
     }
 
     //Tap by coordinates

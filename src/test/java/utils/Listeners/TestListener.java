@@ -9,6 +9,8 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import tests.BaseTest;
+import utilities.Log;
+
 
 
 public class TestListener extends BaseTest implements ITestListener {
@@ -37,54 +39,49 @@ public class TestListener extends BaseTest implements ITestListener {
 
     @Override
     public void onStart(ITestContext iTestContext) {
-        System.out.println("I am in onStart method " + iTestContext.getName());
-        iTestContext.setAttribute("AppiumDriver", getDriver());
+        Log.info("I am in onStart method " + iTestContext.getName());
+        //iTestContext.setAttribute("AppiumDriver", getDriver());
     }
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-        System.out.println("I am in onFinish method " + iTestContext.getName());
+        Log.info("I am in onFinish method " + iTestContext.getName());
     }
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
-        System.out.println("I am in onTestStart method " +  getTestMethodName(iTestResult) + " start");
+        Log.info("I am in onTestStart method " +  getTestMethodName(iTestResult) + " start");
     }
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        System.out.println("I am in onTestSuccess method " +  getTestMethodName(iTestResult) + " succeed");
+        Log.info("I am in onTestSuccess method " +  getTestMethodName(iTestResult) + " succeed");
 
     }
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        System.out.println("I am in onTestFailure method " +  getTestMethodName(iTestResult) + " failed");
+        Log.info("I am in onTestFailure method " +  getTestMethodName(iTestResult) + " failed");
 
         //Get driver from BaseTest and assign to local androiddriver variable.
         Object testClass = iTestResult.getInstance();
         AndroidDriver driver = ((BaseTest) testClass).getDriver();
 
-            System.out.println("Screenshot captured for test case:" + getTestMethodName(iTestResult));
+            Log.info("Screenshot captured for test case:" + getTestMethodName(iTestResult));
             saveScreenshotPNG(driver);
 
-        //Save a log on allure.
         saveTextLog(getTestMethodName(iTestResult) + " failed and screenshot taken!");
 
-        //Take base64Screenshot screenshot for extent reports
-        String base64Screenshot = "data:image/png;base64,"+((TakesScreenshot)driver).
-                getScreenshotAs(OutputType.BASE64);
     }
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-        System.out.println("I am in onTestSkipped method "+  getTestMethodName(iTestResult) + " skipped");
-        //Extentreports log operation for skipped tests.
+        Log.info("I am in onTestSkipped method "+  getTestMethodName(iTestResult) + " skipped");
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
-        System.out.println("Test failed but it is in defined success ratio " + getTestMethodName(iTestResult));
+        Log.info("Test failed but it is in defined success ratio " + getTestMethodName(iTestResult));
     }
 
 }

@@ -11,8 +11,8 @@ public class DataProviderClass {
     {
         return new Object[][] {
                 { "ShoppingList"},
-                { "LIST@2"},
-                {"___LIst__"}
+                { "Mylist2"},
+                {"ThirdList"}
         };
     }
 
@@ -25,7 +25,7 @@ public class DataProviderClass {
                 {"Trash"},
                 {"FirstList"},
                 {"SecondList"},
-                {"ThirdList"}
+                {"List3"}
         };
     }
 
@@ -165,7 +165,7 @@ public class DataProviderClass {
 
         return new Object[][]{
                 {"Apples", "3", "", "", "", "","SecondList","FirstList"},
-                {"Eggs", "", "22", "", "", "", "ThirdList","FirstList"}
+                {"Eggs", "", "22", "", "", "", "List3","FirstList"}
         };
     }
 

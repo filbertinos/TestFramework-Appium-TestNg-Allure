@@ -1,14 +1,17 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
+import utils.Listeners.TestListener;
 import utils.dataProviders.DataProviderClass;
 
+@Listeners({TestListener.class})
+@Epic("Independent =tests of main functionality")
+@Feature("Main functionality")
 public class TestAppIndependent extends BaseTest {
     @BeforeGroups("mylist")
     public void clickAddToMyList(){

@@ -1,17 +1,14 @@
 package pages;
 
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.touch.LongPressOptions;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 import static io.appium.java_client.touch.offset.ElementOption.element;
 
 public class InnerListPage extends BasePage {
@@ -245,7 +242,7 @@ public class InnerListPage extends BasePage {
 
     @Step("Calculate total")
     public double calculateTotal() throws NoSuchElementException {
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
         double sum = 0;
         double finalSum = 0;
         for (AndroidElement item : items) {
@@ -332,13 +329,13 @@ public class InnerListPage extends BasePage {
     @Step("Long press by name")
     public void longPressByName(String itemName){
         //ta.longPress(LongPressOptions.longPressOptions().withElement(element(driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")")))).perform();
-        mobileActions.longPress((AndroidElement) driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")"));
+        androidElementsActions.longPress((AndroidElement) driver.findElementByAndroidUIAutomator("text(\""+itemName+"\")"));
     }
 
     @Step("Long press by number")
     public void longPressByNumber(Integer itemNumber){
         //ta.longPress(LongPressOptions.longPressOptions().withElement(element(items.get(itemNumber)))).perform();
-        mobileActions.longPress(items.get(itemNumber));
+        androidElementsActions.longPress(items.get(itemNumber));
 
     }
 
@@ -372,7 +369,7 @@ public class InnerListPage extends BasePage {
 
     @Step("Verify by name that item does not exist")
     public boolean itemExistCheck(String itemName){
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
         return !driver.findElementsByAndroidUIAutomator("text(\""+itemName+"\")").isEmpty();
     }
 
@@ -394,7 +391,7 @@ public class InnerListPage extends BasePage {
     }
 
     public String splitStringResult(String locator, int index){
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         String[] subStr;
         if(items.get(items.size()-1).findElements(By.id(locator)).isEmpty()){
             return "";
@@ -416,7 +413,7 @@ public class InnerListPage extends BasePage {
     }
 
     private String splitStringResultByItemNumber(String locator, int index, int number) {
-        driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
         try {
             String[] subStr = items.get(number).findElement(By.id(locator)).getText().split(" ");
             return subStr[index];
@@ -426,10 +423,10 @@ public class InnerListPage extends BasePage {
         }
         }
 
-        public InnerListPage startAddActivity(){
-            driver.startActivity(new Activity("com.slava.buylist", "ListAddActivity"));
-            return this;
-        }
+//        public InnerListPage startAddActivity(){
+//            driver.startActivity(new Activity("com.slava.buylist", "ListAddActivity"));
+//            return this;
+//        }
 
         @Step("Type item info")
         public InnerListPage typeItemInfo(String name, String price, String amount, String pack, String comment, String category){

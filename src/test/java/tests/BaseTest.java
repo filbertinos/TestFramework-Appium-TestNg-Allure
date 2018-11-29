@@ -15,11 +15,10 @@ import java.net.MalformedURLException;
 
 public class BaseTest {
 
-    public final static String deviceName = "Nexus5";
-    public final static String pathToFile = "app/sl.apk";
+    private final static String deviceName = "Nexus5";
+    private final static String pathToFile = "app/sl.apk";
 
     private AndroidDriver driver;
-
     public WebDriverWait wait;
     private AppiumDriverLocalService service = AppiumDriverLocalService.buildDefaultService();
 
@@ -27,14 +26,14 @@ public class BaseTest {
         return driver;
     }
 
-    protected HomePage homePage;
-    protected InnerListPage innerListPage;
+    HomePage homePage;
+    InnerListPage innerListPage;
 
 
     @BeforeSuite
     public void setUp() throws IOException {
         service.start();
-        prepareDevice();
+        prepareDeviceForLocalTesting();
         homePage = new HomePage(driver);
         innerListPage = new InnerListPage(driver);
     }
@@ -54,15 +53,12 @@ public class BaseTest {
         }
     }
 
-
-    private void prepareDevice() throws MalformedURLException {
+    private void prepareDeviceForLocalTesting() throws MalformedURLException {
         File fs = new File(pathToFile);
         DesiredCapabilities dc = new DesiredCapabilities();
         dc.setCapability(MobileCapabilityType.DEVICE_NAME, deviceName);
         dc.setCapability("avd",deviceName);
         dc.setCapability(MobileCapabilityType.APP, fs.getAbsolutePath());
-        //dc.setCapability("noReset", "false");
-        //dc.setCapability(MobileCapabilityType.NO_RESET, "false");
-        driver = DriverManager.getInstance(dc);
+        driver = DriverManager.getInstance(1,dc);
     }
 }

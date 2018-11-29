@@ -3,20 +3,18 @@ import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class HomePage extends BasePage {
-    String titleLocator = "com.slava.buylist:id/title";
-    String editButtonLocator = "com.slava.buylist:id/imageView2";
-    String deleteButtonLocator = "com.slava.buylist:id/imageView1";
+    private String titleLocator = "com.slava.buylist:id/title";
+    private String editButtonLocator = "com.slava.buylist:id/imageView2";
+    private String deleteButtonLocator = "com.slava.buylist:id/imageView1";
 
     public HomePage (AndroidDriver driver) {
         super(driver);
@@ -132,7 +130,7 @@ public class HomePage extends BasePage {
         return this;
 
     }
-
+    @Step("Get list number")
     public int getListNumber(String listName){
         int num = 0;
         for(int i = 0;i<listOfLists.size();i++){
